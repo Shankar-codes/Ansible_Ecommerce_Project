@@ -1,0 +1,103 @@
+#setup catalogue server
+- name: setup catalogue server
+  hosts: catalogue
+  become: yes
+
+  tasks:
+  #disable current nodejs module
+  - name: disable current nodejs module
+    command: dnf module disable nodejs -y
+
+  #enable nodejs 20 module
+  - name: enable nodejs 20 module
+    command: dnf module enable nodejs:20 -y
+
+  #install nodejs
+  - name: install nodejs
+    ansible.builtin.package:
+      name: nodejs
+      state: present
+
+  #create system user for catalogue
+  - name: create system user for catalogue
+    ansible.builtin.user:
+      name: roboshop
+      system: true
+      home: /app
+      shell: /sbin/nologin
+      comment: "RoboShop Catalogue User"
+
+  #remove app directory if exists
+  - name: remove app directory
+    ansible.builtin.file:
+      path: /app
+      state: absent
+      
+  #create app directory
+  - name: create app directory
+    ansible.builtin.file:
+      path: /app
+      state: directory
+
+  #remove app directory if exists
+  - name: remove old catalogue code
+    ansible.builtin.file:
+      path: /tmp/catalogue.zip
+      state: absent
+      
+  #download catalogue code
+  - name: download catalogue code
+    ansible.builtin.get_url:
+      url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+      dest: /tmp/catalogue.zip
+
+  #unarchive catalogue code
+  - name: Unarchive a file that is already on the remote machine
+    ansible.builtin.unarchive:
+      src: /tmp/catalogue.zip
+      dest: /app
+      remote_src: yes
+
+  #install npm dependencies
+  - name: install npm dependencies
+    community.general.npm:
+      name: catalogue
+      path: /app
+
+  #copy catalogue service file
+  - name: copy catalogue service file
+    ansible.builtin.copy:
+      src: catalogue.service
+      dest: /etc/systemd/system/catalogue.service
+
+  #copy mongo repo file
+  - name: copy mongo repo file
+    ansible.builtin.copy:
+      src: mongo.repo
+      dest: /etc/yum.repos.d/mongo.repo
+  
+  #install mongosh client
+  - name: install mongosh client
+    ansible.builtin.package:
+      name: mongodb-mongosh
+      state: present
+  
+  #connect to mongodb and create catalogue database
+  - name: connect to mongodb and create catalogue database
+    ansible.builtin.command: mongosh mongodb.daws86s.fun --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')"
+    register: catalogue_output
+  
+  #load products into mongodb
+  - name: load products into mongodb
+    ansible.builtin.command: mongosh --host mongodb.daws86s.fun </app/db/master-data.js
+    when: catalogue_output.stdout | int < 0
+
+     
+  #catalogue service daemon reload
+  - name: catalogue service daemon reload
+    ansible.builtin.systemd_service:
+      name: catalogue
+      state: restarted
+      enabled: yes
+      daemon_reload: true
+  
