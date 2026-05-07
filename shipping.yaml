@@ -99,5 +99,5 @@
     ansible.builtin.systemd_service:
       name: shipping
       daemon_reload: true
-          state: started
-          enabled: true
+      state: started
+      enabled: true
