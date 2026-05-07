@@ -52,11 +52,11 @@
       dest: /tmp/user.zip
 
   # unzip the file
-  - name: unarchive the user zip file
+  - name: extract user application
     ansible.builtin.unarchive:
-    	src: /tmp/user.zip
+      src: /tmp/user.zip
       dest: /app
-    	remote_src: yes
+      remote_src: yes
 
   # install npm dependencies
   - name: install npm dependencies
