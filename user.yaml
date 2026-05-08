@@ -75,4 +75,4 @@
       daemon_reload: true
       name: user
       state: started
-      enable: yes
+      enabled: yes
