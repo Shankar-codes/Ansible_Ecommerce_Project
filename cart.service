@@ -3,8 +3,8 @@ Description = Cart Service
 [Service]
 User=roboshop
 // highlight-start
-Environment=REDIS_HOST=<redis.ellamma.fun>
-Environment=CATALOGUE_HOST=<catalogue.ellamma.fun>
+Environment=REDIS_HOST=redis.ellamma.fun
+Environment=CATALOGUE_HOST=catalogue.ellamma.fun
 Environment=CATALOGUE_PORT=8080
 // highlight-end
 ExecStart=/bin/node /app/server.js
