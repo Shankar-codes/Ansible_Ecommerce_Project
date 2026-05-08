@@ -91,13 +91,16 @@
       target: "{{ item }}"
     loop:
     - /app/db/schema.sql
-    - /app/db/app-user.sql 
+    - /app/db/app-user.sql
     - /app/db/master-data.sql
 
-   # shipping service daemon-reload, enable, start
+  # shipping service daemon-reload, enable, start
   - name: shipping service daemon-reload, enable, start
     ansible.builtin.systemd_service:
       name: shipping
+      daemon_reload: yes
+      enabled: yes
+      state: started
       daemon_reload: true
       state: started
       enabled: true
