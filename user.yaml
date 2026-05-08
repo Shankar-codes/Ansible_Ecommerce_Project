@@ -61,7 +61,7 @@
   # install npm dependencies
   - name: install npm dependencies
     community.general.npm:
-    	path: /app
+      path: /app
 
   # copy user service
   - name: copy user service
@@ -76,5 +76,3 @@
       name: user
       state: started
       enable: yes
-      #reload: yes
-	
