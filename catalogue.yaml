@@ -89,7 +89,7 @@
   
   #load products into mongodb
   - name: load products into mongodb
-    ansible.builtin.command: mongosh --host mongodb.ellamma.fun </app/db/master-data.js
+    ansible.builtin.shell: mongosh --host mongodb.ellamma.fun </app/db/master-data.js
     when: catalogue_output.stdout | int < 0
 
      
