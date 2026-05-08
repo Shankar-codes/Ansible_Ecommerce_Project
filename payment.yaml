@@ -14,8 +14,6 @@
     - gcc
     - python3-devel
 
-   # create system user
-  
   # create system user
   - name: create system user
     ansible.builtin.user:
@@ -25,8 +23,6 @@
       shell: /sbin/nologin
       comment: roboshop system user
 
-   # remove app directory
-  
   # remove app directory
   - name: remove app directory
     ansible.builtin.file:
@@ -63,8 +59,6 @@
     ansible.builtin.pip:
       requirements: /app/requirements.txt
       executable: pip3.9
-    args:
-      chdir: /app
 
   # copy payment service file
   - name: copy payment service file
@@ -79,4 +73,3 @@
       state: started
       enabled: yes
       daemon_reload: yes
-      
