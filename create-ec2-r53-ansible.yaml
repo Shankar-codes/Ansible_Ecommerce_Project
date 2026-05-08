@@ -20,7 +20,11 @@
         tags:
           name: "{{ item }}"
       loop: "{{ instance }}"
-      register: ec2_output      
+      register: ec2_output  
+
+    - name: print the output
+      ansible.builtin.debug:
+        msg: "{{ ec2_output }}"
 
 
     #create R53 record for each instance with private IP address
