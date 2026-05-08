@@ -84,12 +84,12 @@
   
   #connect to mongodb and create catalogue database
   - name: connect to mongodb and create catalogue database
-    ansible.builtin.command: mongosh mongodb.daws86s.fun --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')"
+    ansible.builtin.command: mongosh mongodb.ellamma.fun --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')"
     register: catalogue_output
   
   #load products into mongodb
   - name: load products into mongodb
-    ansible.builtin.command: mongosh --host mongodb.daws86s.fun </app/db/master-data.js
+    ansible.builtin.command: mongosh --host mongodb.ellamma.fun </app/db/master-data.js
     when: catalogue_output.stdout | int < 0
 
      
