@@ -17,8 +17,8 @@
         image: "{{ image_id }}"
         group_id: "{{ sg_id }}"
         instance_type: t3.micro
-      tags:
-        name: "{{ item }}"
+        tags:
+          name: "{{ item }}"
       loop: "{{ instance }}"
       register: ec2_output      
 
