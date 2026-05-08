@@ -1,5 +1,5 @@
 # setup redis server
-- name : setup redis server
+- name: setup redis server
   hosts: redis
   become: yes
 
