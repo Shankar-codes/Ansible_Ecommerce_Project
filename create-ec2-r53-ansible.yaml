@@ -3,9 +3,9 @@
   hosts: localhost
   connection: local
   vars:
-    image_id: ami-0220d79f3f480ecf5
-    zone_id: "Z00405822WO8HCQACP58A"
-    sg_id: sg-020b146d0d1696186
+    image_id: ami-id
+    zone_id: "XXXXXXXXXXXXX"
+    sg_id: sg-id
     domain_name: ellamma.fun
 
   #creating e2 instances and R53 records for each instance  
